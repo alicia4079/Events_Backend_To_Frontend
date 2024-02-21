@@ -1,0 +1,350 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Raleway', sans-serif;
+  list-style: none;
+  text-decoration: none;
+}
+
+:root {
+  --rtc-margin-xs: 10px;
+  --rtc-margin-s: 20px;
+  --rtc-margin-m: 30px;
+  --rtc-margin-l: 40px;
+  --rtc-margin-xl: 50px;
+  --rtc-margin-xxl: 60px;
+
+  --rtc-padding-xs: 10px;
+  --rtc-padding-s: 20px;
+  --rtc-padding-m: 30px;
+  --rtc-padding-l: 40px;
+  --rtc-padding-xl: 50px;
+  --rtc-padding-xxl: 60px;
+
+  --rtc-gap-xs: 10px;
+  --rtc-gap-s: 20px;
+  --rtc-gap-m: 30px;
+  --rtc-gap-l: 40px;
+  --rtc-gap-xl: 50px;
+  --rtc-gap-xxl: 60px;
+  --rtc-border-radius: 20px;
+}
+
+body {
+  color: black;
+  background-color: rgb(247, 250, 100);
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100svh;
+}
+
+.menu-icon {
+  font-size: 24px;
+  cursor: pointer;
+  display: none;
+}
+
+header {
+  padding: var(--rtc-padding-l);
+  margin-bottom: var(--rtc-margin-xxl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(243, 247, 7, 0.744);
+}
+
+nav {
+  width: 500px;
+  display: flex;
+  justify-content: space-between;
+}
+nav a {
+  text-decoration: none;
+  color: rgb(198, 8, 198);
+  font-weight: 600;
+}
+
+#eventscontainer {
+  padding: var(--rtc-padding-s) var(--rtc-padding-m) 0 var(--rtc-padding-m);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: var(--rtc-gap-m);
+}
+
+#eventscontainer li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rtc-gap-xs);
+}
+#eventscontainer img {
+  width: 450px;
+  height: 250px;
+  border-radius: 20px;
+}
+
+#register form {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+#register input,
+#login input {
+  border-radius: 30px;
+  border: none;
+  padding: 10px;
+}
+
+#registerbtn,
+#login button,
+#newEventFormContainer form button,
+#newAttendeeFormContainer button {
+  border-radius: 40px;
+  border: none;
+  color: rgb(255, 166, 0);
+  background-color: black;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#newEventFormContainer input {
+  width: 200px;
+  height: auto;
+}
+
+#logoutbtn,
+#newEventBtn,
+#newAttendeeBtn,
+.editButton,
+.deleteButton,
+#editAttendeeForm button {
+  border-radius: 40px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#newEventBtn {
+  margin-top: var(--rtc-margin-l);
+}
+
+.editButton,
+.deleteButton {
+  background-color: rgb(0, 76, 131);
+  color: whitesmoke;
+}
+
+#attendeeContainer div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rtc-gap-xs);
+  align-items: center;
+}
+#attendeeContainer div h3 {
+  font-style: normal;
+  padding: 0;
+}
+
+#attendeeContainer h4,
+#attendeeContainer div h2 {
+  color: rgb(0, 76, 131);
+  font-size: 20px;
+  font-weight: 900;
+  cursor: pointer;
+}
+#attendeeContainer div h2 {
+  font-size: 26px;
+}
+
+#newEventBtn,
+#newAttendeeBtn {
+  margin-bottom: var(--rtc-margin-l);
+}
+#newAttendeeBtn {
+  margin-top: var(--rtc-margin-l);
+}
+#newEventFormContainer {
+  flex-direction: row;
+}
+
+#newEventFormContainer form,
+#newAttendeeForm,
+#editAttendeeForm {
+  padding: var(--rtc-padding-l);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--rtc-gap-xs);
+}
+#newEventFormContainer h3,
+#newAttendeeForm h3 {
+  font-style: normal;
+  padding: 0;
+}
+
+#attendeeContainer,
+#holidaycontainer {
+  padding-top: var(--rtc-gap-s);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--rtc-gap-l);
+}
+
+#newAttendeeForm input,
+#editAttendeeForm input {
+  border-radius: 20px;
+  width: 250px;
+}
+
+#attendeeContainer li,
+#holidaycontainer li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--rtc-gap-xs);
+}
+
+#login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#login div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--rtc-gap-l);
+}
+
+#login img {
+  height: 200px;
+}
+
+section h3 {
+  padding-left: var(--rtc-padding-xl);
+  font-style: italic;
+  font-size: 16px;
+}
+
+section li a,
+section li h3 {
+  color: rgb(0, 76, 131);
+  padding: 0;
+  font-style: normal;
+  font-size: 20px;
+  font-weight: 600;
+}
+h5 {
+  font-size: 14px;
+  max-width: 450px;
+  text-align: justify;
+}
+
+.detailEvents {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--rtc-gap-xs);
+}
+.detailEvents img {
+  width: 650px;
+}
+
+#events,
+#attendee {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#editAttendeeFormContainer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+#addEventEditBtn,
+#removeEventEditBtn {
+  max-height: 100px;
+  border-radius: 40px;
+  border: none;
+  color: rgb(255, 166, 0);
+  background-color: black;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 1200px) {
+  h1 {
+    font-size: 20px;
+    text-align: center;
+    gap: var(--rtc-gap-s);
+  }
+  .menu-icon {
+    display: block;
+  }
+
+  .menu-icon img {
+    max-width: 50px;
+  }
+
+  nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    gap: var(--rtc-gap-l);
+    top: 100px;
+    left: 0;
+    padding: var(--rtc-padding-l);
+    background-color: rgba(243, 247, 7, 0.744);
+    width: 40%;
+    z-index: 1;
+  }
+
+  .show {
+    display: flex;
+  }
+
+  .nav-links a {
+    margin: 10px 0;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  #eventscontainer img {
+    max-width: 300px;
+    max-height: 200px;
+  }
+  #eventscontainer h5 {
+    max-width: 300px;
+  }
+  .menu-icon img {
+    max-width: 30px;
+  }
+}
