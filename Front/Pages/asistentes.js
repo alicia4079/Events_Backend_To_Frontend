@@ -86,31 +86,45 @@ const mostrarAsistentes = (attendees) => {
       cargarDetallesAsistente(attendee._id)
     })
 
-    li.innerHTML = `
-      <h4>${attendee.name}</h4>
-      <h5>Email: ${attendee.email}</h5>
-      <h5>Eventos:</h5>
-      <ul>
-        ${attendee.events
-          .map(
-            (event) => `
-              <li>
-                ${event.title} - Confirmado: ${event.confirmation ? '✅' : '❌'}
-                <button class="confirmButton" data-attendee-id="${
-                  attendee._id
-                }" data-event-id="${event._id}">
-                  ${
-                    event.confirmation
-                      ? 'Anular Confirmación'
-                      : 'Confirmar Asistencia'
-                  }
-                </button>
-              </li>
-            `
-          )
-          .join('')}
-      </ul>
-    `
+    const h4 = document.createElement('h4')
+    h4.textContent = attendee.name
+
+    const h5Email = document.createElement('h5')
+    h5Email.textContent = `Email: ${attendee.email}`
+
+    const h5Events = document.createElement('h5')
+    h5Events.textContent = 'Eventos:'
+
+    const ulEvents = document.createElement('ul')
+    attendee.events.forEach((event) => {
+      const liEvent = document.createElement('li')
+      liEvent.textContent = `${event.title} - Confirmado: `
+
+      const spanIcon = document.createElement('span')
+      spanIcon.className = 'icon'
+      spanIcon.textContent = event.confirmation ? '✅' : '❌'
+
+      const confirmButton = document.createElement('button')
+      confirmButton.className = 'confirmButton'
+      confirmButton.dataset.attendeeId = attendee._id
+      confirmButton.dataset.eventId = event._id
+      confirmButton.textContent = event.confirmation
+        ? 'Anular Confirmación'
+        : 'Confirmar Asistencia'
+
+      confirmButton.addEventListener('click', async (event) => {
+        await handleConfirmationClick(event, confirmButton)
+      })
+
+      liEvent.appendChild(spanIcon)
+      liEvent.appendChild(confirmButton)
+      ulEvents.appendChild(liEvent)
+    })
+
+    li.appendChild(h4)
+    li.appendChild(h5Email)
+    li.appendChild(h5Events)
+    li.appendChild(ulEvents)
 
     const editButton = document.createElement('button')
     editButton.textContent = 'Editar'
@@ -130,51 +144,38 @@ const mostrarAsistentes = (attendees) => {
 
     attendeeContainer.appendChild(li)
   })
+}
 
-  document.addEventListener('click', async (event) => {
-    if (event.target.classList.contains('confirmButton')) {
-      const attendeeId = event.target.dataset.attendeeId
-      const eventId =
-        event.target.dataset.eventId ||
-        event.target.parentElement.dataset.eventId
+const handleConfirmationClick = async (event, confirmButton) => {
+  event.stopPropagation()
 
-      console.log('Attendee ID:', attendeeId)
-      console.log('Event ID:', eventId)
+  const attendeeId = confirmButton.dataset.attendeeId
+  const eventId = confirmButton.dataset.eventId
 
-      try {
-        const confirmButton = event.target
-        const confirmationStatus = !confirmButton.textContent.includes('Anular')
+  try {
+    const confirmationStatus = !confirmButton.textContent.includes('Anular')
+    const confirmationResult = await confirmEvent(
+      attendeeId,
+      eventId,
+      confirmationStatus
+    )
 
-        const confirmationResult = await confirmEvent(
-          attendeeId,
-          eventId,
-          confirmationStatus
-        )
+    console.log('Confirmation Result:', confirmationResult)
 
-        console.log('Confirmation Result:', confirmationResult)
+    confirmButton.textContent = confirmationStatus
+      ? 'Anular Confirmación ❌'
+      : 'Confirmar Asistencia ✅'
 
-        if (confirmButton) {
-          const eventToUpdate = confirmationResult.events.find(
-            (event) => event._id === eventId
-          )
+    console.log('Botón de confirmación - Contenido:', confirmButton.textContent)
 
-          confirmButton.textContent = confirmationStatus
-            ? 'Anular Confirmación'
-            : 'Confirmar Asistencia'
-
-          console.log(
-            `Confirmation Status for Event ${eventId}:`,
-            eventToUpdate.confirmation
-          )
-          getAttendees(attendees)
-        } else {
-          console.error('Botón de confirmación no encontrado')
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  })
+    console.log(
+      `Confirmation Status for Event ${eventId}:`,
+      confirmationResult.events.find((event) => event._id === eventId)
+        ?.confirmation
+    )
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 const cargarDetallesAsistente = async (attendeeId) => {

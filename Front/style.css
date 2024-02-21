@@ -129,7 +129,8 @@ nav a {
 #newAttendeeBtn,
 .editButton,
 .deleteButton,
-#editAttendeeForm button {
+#editAttendeeForm button,
+.confirmButton {
   border-radius: 40px;
   padding: 10px;
   cursor: pointer;
@@ -166,6 +167,10 @@ nav a {
 }
 #attendeeContainer div h2 {
   font-size: 26px;
+}
+
+#attendeeContainer li {
+  padding: var(--rtc-padding-xs);
 }
 
 #newEventBtn,
