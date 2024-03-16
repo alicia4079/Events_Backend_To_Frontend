@@ -1,4 +1,4 @@
-const Attendee = require('../models/Attendee')
+const Attendee = require('../models/attendee')
 const bcrypt = require('bcrypt')
 const mongoose = require('mongoose')
 
@@ -23,13 +23,13 @@ const getAttendeeById = async (req, res, next) => {
 
 const postAttendee = async (req, res, next) => {
   try {
-    const { email } = req.body
-    const existingAttendee = await Attendee.findOne({ email })
+    const { name } = req.body
+    const existingAttendee = await Attendee.findOne({ name })
 
     if (existingAttendee) {
       return res
         .status(400)
-        .json({ error: 'Ya existe un asistente con este correo.' })
+        .json({ error: 'Ya existe un asistente con este nombre.' })
     }
 
     const newAttendee = new Attendee(req.body)

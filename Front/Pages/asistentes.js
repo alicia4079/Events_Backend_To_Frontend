@@ -18,10 +18,6 @@ const template = (events) => `
         <h3>Crear Nuevo Asistente</h3>
         <label for="name">Nombre:</label>
         <input type="text" id="name" name="name" required>
-        
-        <label for="email">Correo electrónico:</label>
-        <input type="email" id="email" name="email" required>
-        
         <label for="events">Eventos:</label>
         <select id="events" name="events" multiple required>
           ${events
@@ -38,9 +34,6 @@ const template = (events) => `
       <form id="editAttendeeForm">
         <label for="editName">Nombre:</label>
         <input type="text" id="editName" name="editName" required>
-        
-        <label for="editEmail">Correo electrónico:</label>
-        <input type="email" id="editEmail" name="editEmail" required>
         
         <label for="editEvents">Eventos:</label>
         <select id="editEvents" name="editEvents" multiple required>
@@ -89,9 +82,6 @@ const mostrarAsistentes = (attendees) => {
     const h4 = document.createElement('h4')
     h4.textContent = attendee.name
 
-    const h5Email = document.createElement('h5')
-    h5Email.textContent = `Email: ${attendee.email}`
-
     const h5Events = document.createElement('h5')
     h5Events.textContent = 'Eventos:'
 
@@ -112,6 +102,12 @@ const mostrarAsistentes = (attendees) => {
         ? 'Anular Confirmación'
         : 'Confirmar Asistencia'
 
+      if (localStorage.getItem('user')) {
+        confirmButton.style.display = 'block'
+      } else {
+        confirmButton.style.display = 'none'
+      }
+
       confirmButton.addEventListener('click', async (event) => {
         await handleConfirmationClick(event, confirmButton)
       })
@@ -122,7 +118,6 @@ const mostrarAsistentes = (attendees) => {
     })
 
     li.appendChild(h4)
-    li.appendChild(h5Email)
     li.appendChild(h5Events)
     li.appendChild(ulEvents)
 
@@ -132,15 +127,18 @@ const mostrarAsistentes = (attendees) => {
     editButton.addEventListener('click', () =>
       handleEditAttendeeClick(attendee._id)
     )
-    li.appendChild(editButton)
-
+    if (localStorage.getItem('user')) {
+      li.appendChild(editButton)
+    }
     const deleteButton = document.createElement('button')
     deleteButton.textContent = 'Eliminar'
     deleteButton.className = 'deleteButton'
     deleteButton.addEventListener('click', () =>
       handleDeleteAttendeeClick(attendee._id)
     )
-    li.appendChild(deleteButton)
+    if (localStorage.getItem('user')) {
+      li.appendChild(deleteButton)
+    }
 
     attendeeContainer.appendChild(li)
   })
@@ -159,8 +157,6 @@ const handleConfirmationClick = async (event, confirmButton) => {
       eventId,
       confirmationStatus
     )
-
-    console.log('Confirmation Result:', confirmationResult)
 
     confirmButton.textContent = confirmationStatus
       ? 'Anular Confirmación ❌'
@@ -204,7 +200,6 @@ const mostrarDetallesAsistente = (attendee) => {
   const detallesDiv = document.createElement('div')
   detallesDiv.innerHTML = `
     <h2>${attendee.name}</h2>
-    <p>Email: ${attendee.email}</p>
     <h3>Eventos:</h3>
     <ul>
       ${attendee.events.map((event) => `<li>${event.title}</li>`).join('')}
@@ -235,7 +230,6 @@ const handleNewAttendeeClick = async () => {
 
     const data = {
       name: formData.get('name'),
-      email: formData.get('email'),
       events: selectedEvents
     }
 
@@ -284,7 +278,6 @@ const handleEditAttendeeSubmit = async (event) => {
 
   const data = {
     name: formData.get('editName'),
-    email: formData.get('editEmail'),
     events: selectedEvents
   }
 
@@ -376,12 +369,9 @@ const handleEditAttendeeClick = async (attendeeId) => {
     )
 
     if (currentAttendee) {
-      const { name, email, events } = JSON.parse(
-        currentAttendee.dataset.attendee
-      )
+      const { name, events } = JSON.parse(currentAttendee.dataset.attendee)
 
       document.getElementById('editName').value = name
-      document.getElementById('editEmail').value = email
 
       const editEventsSelect = document.getElementById('editEvents')
       editEventsSelect.value = events.map((event) => event._id)
@@ -421,10 +411,9 @@ const populateEditForm = async (attendeeId) => {
     }
 
     const attendee = await response.json()
-    const { name, email, events } = attendee
+    const { name, events } = attendee
 
     document.getElementById('editName').value = name
-    document.getElementById('editEmail').value = email
 
     const editEventsSelect = document.getElementById('editEvents')
     editEventsSelect.innerHTML = ''
@@ -523,33 +512,6 @@ const confirmEvent = async (attendeeId, eventId, confirmationStatus) => {
     return responseData
   } catch (error) {
     throw new Error(`Error al confirmar el evento: ${error.message}`)
-  }
-}
-
-const obtenerDetallesAsistente = async (attendeeId) => {
-  try {
-    if (!attendeeId) {
-      console.error('Error: No se proporcionó un ID de asistente.')
-      return null
-    }
-
-    const responseDetails = await fetch(
-      `http://localhost:3000/api/attendees/${attendeeId}`
-    )
-
-    if (!responseDetails.ok) {
-      const errorText = await responseDetails.text()
-      console.error(
-        `Error al obtener detalles del asistente: ${responseDetails.status} ${responseDetails.statusText}. ${errorText}`
-      )
-      return null
-    }
-
-    const updatedAttendeeDetails = await responseDetails.json()
-    return updatedAttendeeDetails
-  } catch (error) {
-    console.error(`Error al obtener detalles del asistente: ${error.message}`)
-    return null
   }
 }
 

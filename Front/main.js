@@ -5,7 +5,39 @@ import Login from './Pages/login'
 import Register from './Pages/register'
 import './style.css'
 
-const handleLoginClick = () => Login()
+let isLoggedIn = localStorage.getItem('user')
+
+export const updateNavbar = () => {
+  const loginButton = document.getElementById('loginlink')
+  const registerButton = document.getElementById('registerlink')
+  const logOutButton = document.getElementById('logoutlink')
+
+  if (isLoggedIn) {
+    loginButton.style.display = 'none'
+    registerButton.style.display = 'none'
+    logOutButton.style.display = 'block'
+  } else {
+    loginButton.style.display = 'block'
+    logOutButton.style.display = 'none'
+    registerButton.style.display = 'block'
+  }
+}
+
+const handleLoginClick = () => {
+  if (!isLoggedIn) {
+    Login()
+    isLoggedIn = true
+  } else {
+    localStorage.removeItem('user')
+    isLoggedIn = false
+    updateNavbar()
+  }
+}
+
+const handleLogoutClick = () => {
+  Login()
+}
+
 const handleEventClick = () => Events()
 const handleRegisterClick = () => Register()
 const handleAttendeeClick = () => attendees()
@@ -13,6 +45,9 @@ const handleHolidayClick = () => holidays()
 
 const loginLink = document.querySelector('#loginlink')
 loginLink.addEventListener('click', handleLoginClick)
+
+const logoutLink = document.querySelector('#logoutlink')
+logoutLink.addEventListener('click', handleLogoutClick)
 
 const eventLink = document.querySelector('#eventlink')
 eventLink.addEventListener('click', handleEventClick)
@@ -35,4 +70,6 @@ document.addEventListener('DOMContentLoaded', function () {
   menuIcon.addEventListener('click', function () {
     nav.classList.toggle('show')
   })
+
+  updateNavbar()
 })

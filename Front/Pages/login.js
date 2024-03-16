@@ -1,4 +1,5 @@
 import Events from './events'
+import { updateNavbar } from '../main'
 
 const template = () => `
 <section id="login">
@@ -49,6 +50,8 @@ const loginSubmit = async () => {
     localStorage.setItem('user', JSON.stringify(dataRes.user))
 
     alert(`¡Hola de nuevo ${username}!`)
+
+    updateNavbar()
 
     Events()
   } catch (error) {
