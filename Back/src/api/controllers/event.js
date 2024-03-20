@@ -36,15 +36,25 @@ const postEvent = async (req, res, next) => {
 const putEvent = async (req, res, next) => {
   try {
     const { id } = req.params
+
     const oldEvent = await Event.findById(id)
-    deleteFile(oldEvent.img)
-    const newEvent = new Event(req.body)
-    newEvent._id = id
-    const eventUpdated = await Event.findByIdAndUpdate(id, newEvent, {
+    let img = oldEvent.img
+    if (req.file) {
+      img = req.file.path
+    }
+
+    const eventData = {
+      ...req.body,
+      img
+    }
+
+    const eventUpdated = await Event.findByIdAndUpdate(id, eventData, {
       new: true
     })
+
     return res.status(200).json(eventUpdated)
   } catch (error) {
+    console.error(error)
     return res.status(400).json('Error en la solicitud')
   }
 }

@@ -57,23 +57,29 @@ const putConfirmAttendeeEvents = async (req, res, next) => {
   try {
     const { id, eventId } = req.params
 
-    const attendee = await Attendee.findById(id).populate('events')
+    const attendee = await Attendee.findById(id)
 
     if (!attendee) {
       return res.status(404).json({ error: 'No se encontró el asistente' })
     }
 
-    const eventIdObject = new mongoose.Types.ObjectId(eventId)
-
     const eventIndex = attendee.events.findIndex((event) =>
-      event.equals(eventIdObject)
+      event.equals(eventId)
     )
 
     if (eventIndex !== -1) {
       attendee.events[eventIndex].confirmation =
         !attendee.events[eventIndex].confirmation
 
-      const attendeeUpdated = await attendee.save()
+      const update = { $set: { events: attendee.events } }
+
+      const options = { new: true }
+
+      const attendeeUpdated = await Attendee.findByIdAndUpdate(
+        id,
+        update,
+        options
+      )
 
       return res.status(200).json(attendeeUpdated)
     } else {
