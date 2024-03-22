@@ -3,14 +3,16 @@ import Events from './Pages/events'
 import holidays from './Pages/holiday'
 import Login from './Pages/login'
 import Register from './Pages/register'
+import { navLink } from './Components/NavLink/navLink'
+import { dataLink } from './Components/Data'
 import './style.css'
 
 let isLoggedIn = localStorage.getItem('user')
 
 export const updateNavbar = () => {
-  const loginButton = document.getElementById('loginlink')
-  const registerButton = document.getElementById('registerlink')
-  const logOutButton = document.getElementById('logoutlink')
+  const loginButton = document.querySelector('#loginlink')
+  const registerButton = document.querySelector('#registerlink')
+  const logOutButton = document.querySelector('#logoutlink')
 
   if (isLoggedIn) {
     loginButton.style.display = 'none'
@@ -91,47 +93,16 @@ const h1 = document.createElement('h1')
 h1.textContent = 'Disfruta de los mejores eventos del año'
 
 const nav = document.createElement('nav')
-
-const eventLink = document.createElement('a')
-eventLink.href = '#'
-eventLink.id = 'eventlink'
-eventLink.textContent = 'Eventos'
-
-const loginLink = document.createElement('a')
-loginLink.href = '#'
-loginLink.id = 'loginlink'
-loginLink.textContent = 'Login'
-
-const logoutLink = document.createElement('a')
-logoutLink.href = '#'
-logoutLink.id = 'logoutlink'
-logoutLink.textContent = 'Log out'
-
-const registerLink = document.createElement('a')
-registerLink.href = '#'
-registerLink.id = 'registerlink'
-registerLink.textContent = 'Regístrate'
-
-const attendeeLink = document.createElement('a')
-attendeeLink.href = '#'
-attendeeLink.id = 'attendeelink'
-attendeeLink.textContent = 'Asistentes'
-
-const holidayLink = document.createElement('a')
-holidayLink.href = '#'
-holidayLink.id = 'holidaylink'
-holidayLink.textContent = 'Vacaciones'
-
-nav.appendChild(eventLink)
-nav.appendChild(loginLink)
-nav.appendChild(logoutLink)
-nav.appendChild(registerLink)
-nav.appendChild(attendeeLink)
-nav.appendChild(holidayLink)
-
 header.appendChild(menuIconDiv)
 header.appendChild(h1)
 header.appendChild(nav)
+
+for (const links of Object.values(dataLink)) {
+  for (const linkData of links) {
+    const link = navLink(linkData)
+    nav.appendChild(link)
+  }
+}
 
 const footer = document.createElement('footer')
 footer.innerHTML = `
