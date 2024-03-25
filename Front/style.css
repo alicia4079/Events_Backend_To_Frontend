@@ -352,4 +352,17 @@ footer {
   .menu-icon img {
     max-width: 30px;
   }
+  section h3 {
+    padding: 0 20px 10px 20px;
+    text-align: center;
+  }
+  footer {
+    padding-top: 20px;
+  }
+  #login form {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 }

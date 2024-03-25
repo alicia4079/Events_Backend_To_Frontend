@@ -12,7 +12,9 @@ const template = () => `
 `
 
 const getholidays = async () => {
-  const holidayData = await fetch('http://localhost:3000/api/holidays')
+  const holidayData = await fetch(
+    'https://events-backend-to-frontend.vercel.app/api/holidays'
+  )
 
   const holidays = await holidayData.json()
 
