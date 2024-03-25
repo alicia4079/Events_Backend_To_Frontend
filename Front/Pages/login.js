@@ -28,16 +28,19 @@ const loginSubmit = async () => {
     const username = document.querySelector('#username').value
     const password = document.querySelector('#password').value
 
-    const data = await fetch('http://localhost:3000/api/users/login', {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify({
-        userName: username,
-        password: password
-      })
-    })
+    const data = await fetch(
+      'https://events-backend-to-frontend.vercel.app/api/users/login',
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          userName: username,
+          password: password
+        })
+      }
+    )
 
     if (!data.ok) {
       throw new Error(`Error: ${data.status} - ${data.statusText}`)

@@ -53,7 +53,9 @@ const template = (events) => `
 
 const getAttendees = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/attendees')
+    const response = await fetch(
+      'https://events-backend-to-frontend.vercel.app/api/attendees'
+    )
     if (!response.ok) {
       throw new Error(`Error al obtener asistentes: ${response.statusText}`)
     }
@@ -177,7 +179,7 @@ const handleConfirmationClick = async (event, confirmButton) => {
 const cargarDetallesAsistente = async (attendeeId) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/attendees/${attendeeId}`
+      `https://events-backend-to-frontend.vercel.app/api/attendees/${attendeeId}`
     )
     if (!response.ok) {
       throw new Error(
@@ -236,14 +238,17 @@ const handleNewAttendeeClick = async () => {
     const accessToken = localStorage.getItem('accessToken')
 
     try {
-      const response = await fetch('http://localhost:3000/api/attendees', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`
+      const response = await fetch(
+        'https://events-backend-to-frontend.vercel.app/api/attendees',
+        {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`
+          }
         }
-      })
+      )
 
       if (!response.ok) {
         const errorMessage = await response.text()
@@ -283,7 +288,7 @@ const handleEditAttendeeSubmit = async (event) => {
 
   try {
     const response = await fetch(
-      `http://localhost:3000/api/attendees/${attendeeId}`,
+      `https://events-backend-to-frontend.vercel.app/api/attendees/${attendeeId}`,
       {
         method: 'PUT',
         body: JSON.stringify(data),
@@ -326,7 +331,7 @@ const handleDeleteAttendeeClick = async (attendeeId) => {
 
   try {
     const response = await fetch(
-      `http://localhost:3000/api/attendees/${attendeeId}`,
+      `https://events-backend-to-frontend.vercel.app/api/attendees/${attendeeId}`,
       {
         method: 'DELETE',
         headers: {
@@ -396,7 +401,7 @@ const populateEditForm = async (attendeeId) => {
   try {
     const accessToken = localStorage.getItem('accessToken')
     const response = await fetch(
-      `http://localhost:3000/api/attendees/${attendeeId}`,
+      `https://events-backend-to-frontend.vercel.app/api/attendees/${attendeeId}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -437,7 +442,9 @@ const populateEditForm = async (attendeeId) => {
 
 const handleAddEventEditClick = async () => {
   try {
-    const eventsData = await fetch('http://localhost:3000/api/events')
+    const eventsData = await fetch(
+      'https://events-backend-to-frontend.vercel.app/api/events'
+    )
     if (!eventsData.ok) {
       throw new Error(`Error al obtener eventos: ${eventsData.statusText}`)
     }
@@ -490,7 +497,7 @@ const confirmEvent = async (attendeeId, eventId, confirmationStatus) => {
   try {
     const accessToken = localStorage.getItem('accessToken')
     const response = await fetch(
-      `http://localhost:3000/api/attendees/${attendeeId}/${eventId}`,
+      `https://events-backend-to-frontend.vercel.app/api/attendees/${attendeeId}/${eventId}`,
       {
         method: 'PUT',
         headers: {
@@ -517,7 +524,9 @@ const confirmEvent = async (attendeeId, eventId, confirmationStatus) => {
 
 const attendees = async () => {
   try {
-    const eventsData = await fetch('http://localhost:3000/api/events')
+    const eventsData = await fetch(
+      'https://events-backend-to-frontend.vercel.app/api/events'
+    )
     if (!eventsData.ok) {
       throw new Error(`Error al obtener eventos: ${eventsData.statusText}`)
     }

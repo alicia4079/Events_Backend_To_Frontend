@@ -16,7 +16,7 @@ const template = () => `
 const checkUsername = async (username) => {
   try {
     const response = await fetch(
-      'http://localhost:3000/api/users/check-username',
+      'https://events-backend-to-frontend.vercel.app/api/users/check-username',
       {
         method: 'POST',
         headers: {
@@ -49,10 +49,13 @@ const registerSubmit = async (formData) => {
       )
     }
 
-    const response = await fetch('http://localhost:3000/api/users/register', {
-      method: 'POST',
-      body: formData
-    })
+    const response = await fetch(
+      'https://events-backend-to-frontend.vercel.app/api/users/register',
+      {
+        method: 'POST',
+        body: formData
+      }
+    )
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} - ${response.statusText}`)
