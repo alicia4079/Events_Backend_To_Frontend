@@ -37,7 +37,9 @@ const template = () => `
 `
 
 const getEvents = async () => {
-  const eventsData = await fetch('http://localhost:3000/api/events')
+  const eventsData = await fetch(
+    'https://events-backend-to-frontend.vercel.app/api/events'
+  )
   const events = await eventsData.json()
   const eventsContainer = document.querySelector('#eventscontainer')
 
@@ -71,7 +73,9 @@ document.addEventListener('click', async (event) => {
 
 async function cargarDetallesEvento(eventId) {
   try {
-    const response = await fetch(`http://localhost:3000/api/events/${eventId}`)
+    const response = await fetch(
+      `https://events-backend-to-frontend.vercel.app/api/events/${eventId}`
+    )
     if (!response.ok) {
       throw new Error(
         `Error al cargar detalles del evento: ${response.statusText}`
@@ -130,13 +134,16 @@ const handleNewEventSubmit = async (event) => {
   console.log([...formData.entries()])
 
   try {
-    const response = await fetch('http://localhost:3000/api/events', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${accessToken}`
+    const response = await fetch(
+      'https://events-backend-to-frontend.vercel.app/api/events',
+      {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       }
-    })
+    )
 
     if (!response.ok) {
       const errorResponse = await response.json().catch(() => null)
